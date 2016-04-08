@@ -31,8 +31,8 @@ int main()
 
         while(1)
         {
-            puts("a) dodac \"1\".\nb) wyswietlic \"2\"\nc) zmodyfikowac\"3\"\nd) usunac \"4\"");
-            puts("e) posortowac \"5\"\nf) zakonczyc \"0\".");
+            puts("1) dodac \"1\".\n2) wyswietlic \"2\"\n3) zmodyfikowac\"3\"\n4) usunac \"4\"");
+            puts("5) posortowac \"5\" 6) exportowac \"6\"\n7) zakonczyc \"0\".");
             komenda(wybor);
             if(strcmp(wybor,"1\n")==0)
             {
@@ -53,6 +53,10 @@ int main()
             if(strcmp(wybor,"5\n")==0)
             {
                 stersort();
+            }else
+	    if(strcmp(wybor,"6\n")==0)
+            {
+                expdobin();
             }else
             if(strcmp(wybor,"0\n")==0)
             {

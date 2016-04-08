@@ -1,4 +1,3 @@
-
 typedef struct NAPRAWY
 {
         unsigned long LP;
@@ -59,6 +58,8 @@ bool dodkatsam();//tworzy katalogi dla samochodow
 void wypiszkatsam();//wypisuje katalogi samochodow
 
 int dodsam();//dodaje samochody do katalogowC:\Users\Jakub Wieczorek\Desktop\C\ListaJednokierunkowa\Zadanie3\stdmoj.h
+
+int expdobin();//export do pliku baza.txt
 
 void wypiszbaze();//wypisuje cala baze
 

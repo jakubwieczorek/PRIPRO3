@@ -128,7 +128,8 @@ void wypisznapikatnap()
     {
         fprintf(stdout, "%2ld.%17s\n", katalognap[ktory].numer, katalognap[ktory].nazwa);
         if(katalognap[ktory].NAPRAWYPOCZ!=NULL) fprintf(stdout, "%8s%12s%14s\n", "LP.", "Nazwa", "Ilosc godzin");
-        for(aktualnynap=katalognap[ktory].NAPRAWYPOCZ; aktualnynap!=katalognap[ktory].NAPRAWYOST && aktualnynap!=NULL; aktualnynap=aktualnynap->next)
+        for(aktualnynap=katalognap[ktory].NAPRAWYPOCZ; aktualnynap!=katalognap[ktory].NAPRAWYOST && aktualnynap!=NULL;
+aktualnynap=aktualnynap->next)
             fprintf(stdout, "%7lu.%12s%14d\n", aktualnynap->LP, aktualnynap->nazwa, aktualnynap->iloscgodz);
     }
 }
