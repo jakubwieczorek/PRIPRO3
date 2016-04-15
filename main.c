@@ -43,7 +43,7 @@ void menu(int condition)
 int main()
 {
 	int cond=0, choise;
-	char choise_str[11];
+	char choise_str[10];
         while(1)
         {
 	    menu(cond);
