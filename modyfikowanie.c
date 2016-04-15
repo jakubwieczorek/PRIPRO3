@@ -21,7 +21,7 @@ void modyfikowaniesamwkat(samochod *ktorysam, unsigned long ktorykat, FILE *wskp
         
 	check_int((int*)&ktorysam->rok, "Rok(1700,2100): ", 2, 1699, 2101);
         
-	check_int((int*)&ktorysam->przebieg, "Przebieg(1,10e8): ", 2, 0, 10e8);
+	check_int((int*)&ktorysam->przebieg, "Przebieg(1,10e8): ", 2, 0, 1000000);
     }else
     {
 
