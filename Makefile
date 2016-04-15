@@ -1,7 +1,9 @@
-main.out: main.o sterdod.o usuwanie.o stermod.o wypisywanie.o dodawanie.o modyfikowanie.o stersort.o sortowanie.o sterusu.o sterwyp.o dotxt.o
-	gcc -o main.out main.o sterdod.o usuwanie.o stermod.o wypisywanie.o dodawanie.o modyfikowanie.o stersort.o sortowanie.o sterusu.o sterwyp.o dotxt.o
+main.out: main.o check.o sterdod.o usuwanie.o stermod.o wypisywanie.o dodawanie.o modyfikowanie.o stersort.o sortowanie.o sterusu.o sterwyp.o dotxt.o
+	gcc -o main.out main.o check.o sterdod.o usuwanie.o stermod.o wypisywanie.o dodawanie.o modyfikowanie.o stersort.o sortowanie.o sterusu.o sterwyp.o dotxt.o
 main.o: main.c stdmoj.h
 	gcc -g -std=c99 -c -Wall -o main.o main.c 
+check.o: check.c stdmoj.h
+	gcc -g -std=c99 -c -Wall -o check.o check.c
 sterdod.o: sterdod.c stdmoj.h
 	gcc -g -std=c99 -c -Wall -o sterdod.o sterdod.c
 usuwanie.o: usuwanie.c stdmoj.h

@@ -33,6 +33,10 @@ typedef struct
     samochod *ost;
 }katsam;
 
+void check_int(int *to_check, const char *str, int n, ...);//n ilosc dodatkowych argumentow, pierwszy dod min drugi max.
+
+void check_str(const char* msg, char *str, int amount);// pobiera string z wejscia, gdy amount==15 to 15 elemntow gdy 
+
 void wypisznapikatnap();//wypisuje katalogi napraw i naprawy
 
 void wypiszsamikatsam();//wypisuje katalogi samochodow i samochody

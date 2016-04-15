@@ -102,39 +102,9 @@ void modyfikowaniesamwkat(samochod *ktorysam, unsigned long ktorykat, FILE *wskp
 
 void modyfikowaniekatsam(unsigned long ktorykat, FILE *wskplik)
 {
-    bool end=false;
-    unsigned short actel=0;
-
     if(wskplik==stdin)
     {
-        while(1)
-        {
-            actel=0;
-            end=false;
-            fprintf(stdout, "nazwa: ");
-            fgets(katsamochodow[ktorykat].nazwa, 15, stdin);
-            if(katsamochodow[ktorykat].nazwa[0]=='\n')continue;else
-                do//ta petla robi 2 rzeczy
-                {
-                    if(katsamochodow[ktorykat].nazwa[actel]=='\n')//tutaj powoduje ze przedostatnim elementem nie jest enter
-                    {
-                        katsamochodow[ktorykat].nazwa[actel]='\0';
-                        end = true;
-                        break;
-                    }else
-                    if(katsamochodow[ktorykat].nazwa[actel]=='\0')// a tutaj czysci bufor wejscia gdy ktos wpisal lancuch dluzszy
-                    {//niz przewiduje ta tablica
-                        while(fgetc(stdin)!='\n');
-                        end = true;
-                        break;
-                    }
-                    actel+=1;
-                }while(1);
-            if(end)break; // end == true wiec wychodzimy z petli
-        }
-    }else
-    {
-
+	    check_str("nazwa: ", katsamochodow[ktorykat].nazwa, 15);
     }
 }
 
