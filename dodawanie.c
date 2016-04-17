@@ -33,17 +33,22 @@ bool dodkatsam()//zwraca 1 gdy blad alokacji pamieci dla katalogu
     return false;
 }
 
-int dodsam()//zwraca 1 gdy blad alokacji pamieci dla pierwszego katalogu, 2 gdy blad alokacji pamieci dla nowego samochodu
+int dodsam(int where, FILE *from)//zwraca 1 gdy blad alokacji pamieci dla pierwszego katalogu, 2 gdy blad alokacji pamieci dla nowego samochodu
 {//0 gdy powodzenie
     int wybor;// tablica przechowujaca rozkazy uzytkownika
     samochod *aktualny;
-
-	check_int(&wybor, "W ktorym katalogu dodac samochod ?(Wyswietl liste katalogow 0):=>", 2, -1, ilekatsam+1);
-        if(wybor==0)
-        {
-		wypiszkatsam();
-        	check_int(&wybor, "W ktorym katalogu dodac samochod ?:=>", 2, 0, ilekatsam+1);
-        }
+	
+	wybor=where;
+	if(from==stdin);
+	{
+		check_int(&wybor, "W ktorym katalogu dodac samochod ?(Wyswietl liste katalogow 0):=>", 2, -1, ilekatsam+1);
+     	   	if(wybor==0)
+       		{
+			wypiszkatsam();
+        		check_int(&wybor, "W ktorym katalogu dodac samochod ?:=>", 2, 0, ilekatsam+1);
+       		}
+	}
+	
         //tutaj czytanie samochodu do katalogu wybor-1
             if(katsamochodow[wybor-1].pocz==NULL)//gdy w katalogu nie ma zadnego samochodu
             {
@@ -67,7 +72,7 @@ int dodsam()//zwraca 1 gdy blad alokacji pamieci dla pierwszego katalogu, 2 gdy 
                     aktualny->next->pop=aktualny;
                 }
 		
-            modyfikowaniesamwkat(aktualny, wybor, stdin);
+            modyfikowaniesamwkat(aktualny, wybor, from);
             if(aktualny!=katsamochodow[wybor-1].pocz)
                 aktualny->LP=aktualny->pop->LP+1L; //zwiekszenie numeru dango samochodu
             //w tych strukturach dane np. typu unsigned short nie sa inicjalizowane zerem, wiec trzeba
@@ -119,6 +124,7 @@ int dodnap()// 1 gdy blad alokacji pamieci dla nowej naprawy
             //w tych strukturach dane np. typu unsigned short nie sa inicjalizowane zerem, wiec trzeba
             //zwieszyc LP. korzystajac z poprzedniej struktury
 	 }
+	isnap++;
     return 0;
 }
 
@@ -201,6 +207,7 @@ int dodnapdosam()
         nowanap->LP=nowanap->pop->LP+1L; //zwiekszenie numeru danej naprawy
                     //w tych strukturach dane np. typu unsigned short nie sa inicjalizowane zerem, wiec trzeba
                     //zwieszyc LP. korzystajac z poprzedniej struktury
+	isnap++;
     return 0;
 }
 

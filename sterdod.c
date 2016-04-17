@@ -64,7 +64,6 @@ bool nap()//gdy pobralo to true gdy nie to false
 	if(wybor==2) 
 	{
 		if(dodnap()) fprintf(stderr, "error: segmentation fault");
-		isnap++;
 		return true;
 	}
 	return false;
@@ -95,7 +94,7 @@ void sterdod()
         if(wybor==2)//samochod
         {
 		if(ilekatsam==0)continue;
-            	if(dodsam())fprintf(stderr, "error: segmentation fault");
+            	if(dodsam(0, stdin))fprintf(stderr, "error: segmentation fault");
 	    	else issam++;
         }else
         if(wybor==3)//naprawe

@@ -22,12 +22,12 @@ void komenda2(unsigned long *wybor)
     while(fgetc(stdin)!='\n');
 }
 
-void menu(int condition)
+void menu()
 {	
 	
 	printf("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n");
 	printf("& 1) dodac \"1\".\n");
-	if(condition==1)
+	if(ilekatsam+ilekatnap)
 	{
 		printf("& 2) wyswietlic \"2\"\n"); 
 		printf("& 3) zmodyfikowac\"3\"\n");
@@ -42,11 +42,11 @@ void menu(int condition)
 
 int main()
 {
-	int cond=0, choise;
+	int choise;
 	char choise_str[10];
         while(1)
         {
-	    menu(cond);
+	    menu();
  	    check_int(&choise, "=>", 2, -1, 7);
             
 	    if(choise==1)

@@ -106,6 +106,7 @@ void usuwaniesamwkat(samochod *samo, unsigned long ktory)
     {//tutaj zachowanie dobrej numeracji
         samo->LP=licznik;
     }
+    issam--;
 }
 
 void usuwanienapwsam(samochod *samo, naprawy *napra)
@@ -133,7 +134,8 @@ void usuwanienapwsam(samochod *samo, naprawy *napra)
     for(napra=samo->NAPRAWYPOCZ; napra!=samo->NAPRAWYOST; napra=napra->next, licznik+=1L)//zachowanie numeracji
     {//tutaj zachowanie dobrej numeracji
         napra->LP=licznik;
-    }
+    } 
+    isnap--;
 }
 
 void usuwanienapwkat(naprawy *napra, unsigned long ktory)
@@ -162,4 +164,5 @@ void usuwanienapwkat(naprawy *napra, unsigned long ktory)
     {//tutaj zachowanie dobrej numeracji
         napra->LP=licznik;
     }
+    isnap--;
 }

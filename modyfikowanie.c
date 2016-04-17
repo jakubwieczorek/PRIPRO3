@@ -34,6 +34,10 @@ void modyfikowaniekatsam(unsigned long ktorykat, FILE *wskplik)
     {
 	    check_str("nazwa: ", katsamochodow[ktorykat].nazwa, 15);
     }
+    else 
+    {
+	//fscanf(wskplik, "%s", katsamochodow[ktorykat].nazwa);
+    }
 }
 
 void modyfikowaniekatnap(unsigned long ktorykat, FILE *wskplik)

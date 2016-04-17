@@ -212,8 +212,6 @@ void impodbin()
 
     }
 
-
-
     if(wskplik=fclose(wskplik)==NULL)
 
     {
