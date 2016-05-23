@@ -58,12 +58,12 @@ bool nap()//gdy pobralo to true gdy nie to false
 	check_int(&wybor, "Co teraz ?:=>", 2, 0, 3);
 	if(wybor==1)
 	{		
-		if(dodnapdosam()) fprintf(stderr, "error: segmentation fault");
+		if(dodnapdosam(0, stdin, 0, 0, 0)) fprintf(stderr, "error: segmentation fault");
 		return true;
 	}
 	if(wybor==2) 
 	{
-		if(dodnap()) fprintf(stderr, "error: segmentation fault");
+		if(dodnap(0, stdin)) fprintf(stderr, "error: segmentation fault");
 		return true;
 	}
 	return false;
@@ -84,11 +84,11 @@ void sterdod()
             check_int(&wybor, "Co teraz ?:=>", 2, 0, 3);
 	    if(wybor==1) //samochod do katalogu
 	    {
-		if(dodkatnap())fprintf(stderr, "error: segmentation fault");
+		if(dodkatnap(stdin))fprintf(stderr, "error: segmentation fault");
 	    }
 	    else 	//naprawe do katalogu    
 	    {
-		if(dodkatsam()) fprintf(stderr, "error: segmentation fault"); 
+		if(dodkatsam(stdin)) fprintf(stderr, "error: segmentation fault"); 
             }
 	}else
         if(wybor==2)//samochod

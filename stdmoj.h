@@ -48,11 +48,11 @@ void wypiszkatnap();//wypisuje katalogi napraw
 
 void wypisznapzkat(unsigned long ktory);//wypisuje naprawy z danego katalogu podanego jako argument funkcji
 
-int dodnap();//dodaje naprawy do katalogownapraw
+int dodnap(int where, FILE* file);// dodaje naprawy do katalogu where z pliku from
 
-int dodnapdosam();//dodaje naprawy do samochodow zwraca 0 gdy powodzenie 1 i 2 gdy blad alokacji odpowiednio katalogu samochodow i katalogu napraw
+int dodnapdosam(int where, FILE *file, int ktoryp, int ktorykatnapp, int ktoranapp);//dodaje naprawy do samochodow zwraca 0 gdy powodzenie 1 i 2 gdy blad alokacji odpowiednio katalogu samochodow i katalogu napraw
 
-bool dodkatnap();//dodaje katalogi napraw
+bool dodkatnap(FILE* file); //dodaje katalogi napraw
 
 void wypisznapzsam(unsigned long ktorykat, samochod *aktualny);
 
@@ -60,11 +60,11 @@ void wypiszsamzkat(unsigned long ktory);//wypisuje samochody z danego katalogu p
 
 void komenda(char *wybor);//pobiera rozkazy uzytkownika
 
-bool dodkatsam();//tworzy katalogi dla samochodow
+bool dodkatsam(FILE* file);//tworzy katalogi samochodow dane pobiera z pliku from
 
 void wypiszkatsam();//wypisuje katalogi samochodow
 
-int dodsam(int wybor, FILE *from);//dodaje samochody do katalogowC:\Users\Jakub Wieczorek\Desktop\C\ListaJednokierunkowa\Zadanie3\stdmoj.h
+int dodsam(int where, FILE *file);//dodaje samochody do katalogow
 
 int expdobin();//export do pliku baza.txt
 

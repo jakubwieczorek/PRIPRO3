@@ -12,16 +12,15 @@ extern size_t ilekatsam;//zlicza katalogi samochodow
 extern size_t ilesam;
 
 
-bool dodkatsam()//zwraca 1 gdy blad alokacji pamieci dla katalogu
+bool dodkatsam(FILE* file)//zwraca 1 gdy blad alokacji pamieci dla katalogu
 {//0 gdy powodzenie
-    fputs("Dodajesz nowy katalog samochodow.", stdout);
     if((katsamochodow=realloc(katsamochodow, sizeof(*katsamochodow)*(ilekatsam+1L)))==NULL)
     {
         perror("error:");
         return true;
     }
 
-    modyfikowaniekatsam(ilekatsam, stdin);
+    modyfikowaniekatsam(ilekatsam, file);
 
     katsamochodow[ilekatsam].numer=ilekatsam+1L;
 
@@ -33,13 +32,13 @@ bool dodkatsam()//zwraca 1 gdy blad alokacji pamieci dla katalogu
     return false;
 }
 
-int dodsam(int where, FILE *from)//zwraca 1 gdy blad alokacji pamieci dla pierwszego katalogu, 2 gdy blad alokacji pamieci dla nowego samochodu
+int dodsam(int where, FILE *file)//zwraca 1 gdy blad alokacji pamieci dla pierwszego katalogu, 2 gdy blad alokacji pamieci dla nowego samochodu
 {//0 gdy powodzenie
     int wybor;// tablica przechowujaca rozkazy uzytkownika
     samochod *aktualny;
 	
 	wybor=where;
-	if(from==stdin);
+	if(file==stdin);
 	{
 		check_int(&wybor, "W ktorym katalogu dodac samochod ?(Wyswietl liste katalogow 0):=>", 2, -1, ilekatsam+1);
      	   	if(wybor==0)
@@ -72,7 +71,7 @@ int dodsam(int where, FILE *from)//zwraca 1 gdy blad alokacji pamieci dla pierws
                     aktualny->next->pop=aktualny;
                 }
 		
-            modyfikowaniesamwkat(aktualny, wybor, from);
+            modyfikowaniesamwkat(aktualny, wybor, file);
             if(aktualny!=katsamochodow[wybor-1].pocz)
                 aktualny->LP=aktualny->pop->LP+1L; //zwiekszenie numeru dango samochodu
             //w tych strukturach dane np. typu unsigned short nie sa inicjalizowane zerem, wiec trzeba
@@ -83,26 +82,32 @@ int dodsam(int where, FILE *from)//zwraca 1 gdy blad alokacji pamieci dla pierws
 	return 0;
 }
 
-int dodnap()// 1 gdy blad alokacji pamieci dla nowej naprawy
+int dodnap(int where, FILE* file)// 1 gdy blad alokacji pamieci dla nowej naprawy
 {//0 gdy powodzenie
     int wybor;
     naprawy *aktualny;
-
-	check_int(&wybor, "W ktorym katalogu dodac naprawe ?(Wyswietl liste katalogow 0):=>", 2, -1, ilekatnap+1);
-        if(wybor==0L)
-        {
-            wypiszkatnap();
-	    check_int(&wybor, "W ktorym katalogu dodac naprawe ?:=>", 2, 0, ilekatnap+1);
+	
+	wybor=where;
+	if(file==stdin)
+	{
+		check_int(&wybor, "W ktorym katalogu dodac naprawe ?(Wyswietl liste katalogow 0):=>", 2, -1, ilekatnap+1);
+        	if(wybor==0L)
+        	{
+            		wypiszkatnap();
+	    		check_int(&wybor, "W ktorym katalogu dodac naprawe ?:=>", 2, 0, ilekatnap+1);
+		}
 	}
-        if(wybor<=ilekatnap && wybor>0L)
-        {//tutaj czytanie samochodu do katalogu wybor-1
+        
+	if(wybor<=ilekatnap && wybor>0L)
+	{//tutaj czytanie samochodu do katalogu wybor-1
             if(katalognap[wybor-1].NAPRAWYPOCZ==NULL)//gdy w katalogu nie ma zadnej naprawy
             {
                 if((katalognap[wybor-1].NAPRAWYPOCZ=malloc(sizeof(naprawy)))==NULL) return 1;//alokacja o rozmiarze zmiennej
                 //samochod, a nie samochod* - to wskaznik a wskaznik ma duzo mniejszy rozmiar
                 if((katalognap[wybor-1].NAPRAWYOST=malloc(sizeof(naprawy)))==NULL) return 1;
                 //utworzenie listy
-                katalognap[wybor-1].NAPRAWYPOCZ->next=katalognap[wybor-1].NAPRAWYOST;
+ 
+               katalognap[wybor-1].NAPRAWYPOCZ->next=katalognap[wybor-1].NAPRAWYOST;
                 katalognap[wybor-1].NAPRAWYOST->pop=katalognap[wybor-1].NAPRAWYPOCZ;
                 katalognap[wybor-1].NAPRAWYPOCZ->pop=NULL;
                 katalognap[wybor-1].NAPRAWYOST->next=NULL;
@@ -117,7 +122,7 @@ int dodnap()// 1 gdy blad alokacji pamieci dla nowej naprawy
                     aktualny->pop->next=aktualny;
                     aktualny->next->pop=aktualny;
                 }
-            modyfikowanienapwkat(aktualny, stdin);
+            modyfikowanienapwkat(aktualny, file);
 
             if(aktualny!=katalognap[wybor-1].NAPRAWYPOCZ)
                 aktualny->LP=aktualny->pop->LP+1L; //zwiekszenie numeru dango samochodu
@@ -128,7 +133,7 @@ int dodnap()// 1 gdy blad alokacji pamieci dla nowej naprawy
     return 0;
 }
 
-int dodnapdosam()
+int dodnapdosam(int where, FILE *file, int ktoryp, int ktorykatnapp, int ktoranapp)
 {
     int wybor;//ktory samochod
     int ktory;//ktory katalog samochodow
@@ -137,47 +142,55 @@ int dodnapdosam()
     naprawy *aktualnynap;//zmienne do szukania napraw czy samochodow
     samochod *aktualny;
     naprawy *nowanap;//nowa naprawa w samochodzie
-    
-	check_int(&ktory, "W ktorym (najpierw nr. katalogu potem samochodu) ?Wyswietl liste katalogow i samochody(0)=>", 2, -1, ilekatsam+1);
-
-        if(ktory==0)
-        {
-            wypiszsamikatsam();
-
-	    check_int(&ktory, "W ktorym katalogu ?=>", 2, -1, ilekatsam+1);
-        }
-
-	if(katsamochodow[ktory-1].pocz!=NULL) 
-	{
-	    
-	    	check_int(&wybor, "W ktorym samochodzie ?=>", 2, 0, katsamochodow[ktory-1].ost->pop->LP+1);
-    	    
-                for(aktualny=katsamochodow[ktory-1].pocz; aktualny!=katsamochodow[ktory-1].ost; aktualny=aktualny->next)
-                {
-			if(aktualny->LP==wybor)	break;//szukamy elementu o podanym numerze
-		}     	 
-	}else 
-	{puts("Brak samochodow w tym katalogu"); return 0;}
-
-        check_int(&ktorykatnap,"Ktora naprawe (najpierw nr. katalogu potem naprawy) ?Wyswietl liste katalogow i naprawy(0)=>", 2, -1, ilekatnap+1);
-        
-	if(ktorykatnap==0)
-        {
-            	wypisznapikatnap();   
-		check_int(&ktorykatnap,"Ktory katalog ?=>", 2, -1, ilekatnap+1);
-        }
+ 	
+	wybor=where;
+	ktory=ktoryp;
+	ktorykatnap=ktorykatnapp;
+	ktoranap=ktoranapp;
 	
-	if(katalognap[ktorykatnap-1].NAPRAWYPOCZ!=NULL) 
-	{
-      	 	check_int(&ktoranap,"Ktora naprawa ?=>", 2, -1, katalognap[ktorykatnap-1].NAPRAWYOST->pop->LP+1);
-		for(aktualnynap=katalognap[ktorykatnap-1L].NAPRAWYPOCZ; aktualnynap!=katalognap[ktorykatnap-1].NAPRAWYOST; 
-		aktualnynap=aktualnynap->next)	
-                {//szukanie naprawy
-			if(aktualnynap->LP==ktoranap)	break;
-               	}
-	}else
-	{puts("Brak napraw w tym katalogu"); return 0;}
-        //***********************************************************
+	if(file==stdin)
+	{      
+		check_int(&ktory, "W ktorym (najpierw nr. katalogu potem samochodu) ?Wyswietl liste katalogow i samochody(0)=>", 2, -1, ilekatsam+1);
+
+        	if(ktory==0)
+        	{
+            		wypiszsamikatsam();
+
+	    		check_int(&ktory, "W ktorym katalogu ?=>", 2, -1, ilekatsam+1);
+        	}
+
+		if(katsamochodow[ktory-1].pocz!=NULL) 
+		{
+	    
+	    		check_int(&wybor, "W ktorym samochodzie ?=>", 2, 0, katsamochodow[ktory-1].ost->pop->LP+1);
+    	    
+               	 	for(aktualny=katsamochodow[ktory-1].pocz; aktualny!=katsamochodow[ktory-1].ost; aktualny=aktualny->next)
+                	{
+				if(aktualny->LP==wybor)	break;//szukamy elementu o podanym numerze
+			}     	 
+		}else 
+		{puts("Brak samochodow w tym katalogu"); return 0;}
+
+        	check_int(&ktorykatnap,"Ktora naprawe (najpierw nr. katalogu potem naprawy) ?Wyswietl liste katalogow i naprawy(0)=>", 2, -1, ilekatnap+1);
+        
+		if(ktorykatnap==0)
+        	{
+            		wypisznapikatnap();   
+			check_int(&ktorykatnap,"Ktory katalog ?=>", 2, -1, ilekatnap+1);
+	        }
+	
+		if(katalognap[ktorykatnap-1].NAPRAWYPOCZ!=NULL) 
+		{
+      	 		check_int(&ktoranap,"Ktora naprawa ?=>", 2, -1, katalognap[ktorykatnap-1].NAPRAWYOST->pop->LP+1);
+			for(aktualnynap=katalognap[ktorykatnap-1L].NAPRAWYPOCZ; aktualnynap!=katalognap[ktorykatnap-1].NAPRAWYOST; 
+			aktualnynap=aktualnynap->next)	
+        	        {//szukanie naprawy
+				if(aktualnynap->LP==ktoranap)	break;
+               		}
+		}else
+		{puts("Brak napraw w tym katalogu"); return 0;}
+        }
+	//***********************************************************
         if(aktualny->NAPRAWYPOCZ==NULL)//gdy w samochodzie nie ma ¿adnej naprawy
         {
 		if((aktualny->NAPRAWYPOCZ=malloc(sizeof(naprawy)))==NULL) return 5;//alokacja o rozmiarze zmiennej
@@ -211,7 +224,7 @@ int dodnapdosam()
     return 0;
 }
 
-bool dodkatnap()//zwraca jeden gdy blad alokacji dla katalogu, 0 gdy powodzenie
+bool dodkatnap(FILE* file)//zwraca jeden gdy blad alokacji dla katalogu, 0 gdy powodzenie
 {
     fputs("Dodajesz nowy katalog napraw.", stdout);
     if((katalognap=realloc(katalognap, sizeof(*katalognap)*(ilekatnap+1L)))==NULL)
@@ -220,7 +233,7 @@ bool dodkatnap()//zwraca jeden gdy blad alokacji dla katalogu, 0 gdy powodzenie
         return true;
     }
 
-    modyfikowaniekatnap(ilekatnap, stdin);
+    modyfikowaniekatnap(ilekatnap, file);
 
     katalognap[ilekatnap].numer=ilekatnap+1L;//zwiekszam numer katalogu
 

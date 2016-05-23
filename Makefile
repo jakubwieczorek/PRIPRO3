@@ -1,28 +1,36 @@
-main.out: main.o check.o sterdod.o usuwanie.o stermod.o wypisywanie.o dodawanie.o modyfikowanie.o stersort.o sortowanie.o sterusu.o sterwyp.o dotxt.o
-	gcc -o main.out main.o check.o sterdod.o usuwanie.o stermod.o wypisywanie.o dodawanie.o modyfikowanie.o stersort.o sortowanie.o sterusu.o sterwyp.o dotxt.o
+FLAGS = -std=c99 -g -Wall -c
+CC = gcc
+LINK = gcc
+OBJECTS = main.o check.o sterdod.o usuwanie.o stermod.o wypisywanie.o dodawanie.o modyfikowanie.o stersort.o sortowanie.o sterusu.o sterwyp.o dotxt.o
+TARGET = main.out
+
+$(TARGET): $(OBJECTS)
+	$(LINK) -o $(TARGET) $(OBJECTS)
 main.o: main.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o main.o main.c 
+	$(CC) $(FLAGS) -o main.o main.c 
 check.o: check.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o check.o check.c
+	$(CC) $(FLAGS) -o check.o check.c
 sterdod.o: sterdod.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o sterdod.o sterdod.c
+	$(CC) $(FLAGS) -o sterdod.o sterdod.c
 usuwanie.o: usuwanie.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o usuwanie.o usuwanie.c
+	$(CC) $(FLAGS) -o usuwanie.o usuwanie.c
 stermod.o: stermod.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o stermod.o stermod.c
+	$(CC) $(FLAGS) -o stermod.o stermod.c
 wypisywanie.o: wypisywanie.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o wypisywanie.o wypisywanie.c
+	$(CC) $(FLAGS) -o wypisywanie.o wypisywanie.c
 dodawanie.o: dodawanie.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o dodawanie.o dodawanie.c
+	$(CC) $(FLAGS) -o dodawanie.o dodawanie.c
 modyfikowanie.o: modyfikowanie.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o modyfikowanie.o modyfikowanie.c
+	$(CC) $(FLAGS) -o modyfikowanie.o modyfikowanie.c
 stersort.o: stersort.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o stersort.o stersort.c
+	$(CC) $(FLAGS) -o stersort.o stersort.c
 sortowanie.o: sortowanie.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o sortowanie.o sortowanie.c
+	$(CC) $(FLAGS) -o sortowanie.o sortowanie.c
 sterusu.o: sterusu.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o sterusu.o sterusu.c
+	$(CC) $(FLAGS) -o sterusu.o sterusu.c
 sterwyp.o: sterwyp.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o sterwyp.o sterwyp.c
+	$(CC) $(FLAGS) -o sterwyp.o sterwyp.c
 dotxt.o: dotxt.c stdmoj.h
-	gcc -g -std=c99 -c -Wall -o dotxt.o dotxt.c
+	$(CC) $(FLAGS) -o dotxt.o dotxt.c
+clean:
+	rm -v -f *.o
