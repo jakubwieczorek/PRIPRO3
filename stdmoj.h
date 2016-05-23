@@ -66,7 +66,9 @@ void wypiszkatsam();//wypisuje katalogi samochodow
 
 int dodsam(int where, FILE *file);//dodaje samochody do katalogow
 
-int expdobin();//export do pliku baza.txt
+int expdobin();//export do pliku baza.ula
+
+int expdotxt();//export do baza.txt
 
 void wypiszbaze();//wypisuje cala baze
 

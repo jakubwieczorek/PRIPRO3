@@ -12,13 +12,20 @@ extern size_t ilekatnap;//zlicze katalogi napraw
 
 extern size_t ilekatsam;//zlicza katalogi samochodow
 
-int expdobin()//1 gdy blad otwarcia, 2 gdy blad zamkniecia
+int expdotxt()//1 gdy blad otwarcia, 2 gdy blad zamkniecia
 {
     FILE *wskplik;
     unsigned long ktory;//licznik do katalogow
     samochod *aktualny;
     naprawy *aktualnynap;
-
+/*
+* katalog samochodow
+$ ignoruje
++ samochody
+@ naprawy w samochodach
+# katalogi napraw
+^ naprawy w katalogach
+*/
 
     if((wskplik=fopen("baza.txt", "w+"))==NULL)
     {
@@ -26,55 +33,43 @@ int expdobin()//1 gdy blad otwarcia, 2 gdy blad zamkniecia
         return 1;//1 gdy blad otwarcia
     }
     
-    fputs("*\n",wskplik);
     for(ktory=0L; ktory<ilekatsam; ktory+=1L)
-    {
-        fprintf(wskplik, "%2ld.%17s\n", katsamochodow[ktory].numer, katsamochodow[ktory].nazwa);
+    {	
+	fputs("$ KatalogSamochodow$\n", wskplik);
+        fprintf(wskplik, "* %2ld %17s\n", katsamochodow[ktory].numer, katsamochodow[ktory].nazwa);
 	//pomiedzy $ nie importuje w kolejnej funkcji
-        if(katsamochodow[ktory].pocz!=NULL)fprintf(wskplik, "$ %5s%12s%12s%5s%12s $\n", "LP.", "Marka", "Model", "Rok", "Przebieg");
+        if(katsamochodow[ktory].pocz!=NULL)fprintf(wskplik, "$ samochody:$\n");
         
-	fputs("+\n", wskplik);//poczatek samochodow
 	for(aktualny=katsamochodow[ktory].pocz; aktualny!=katsamochodow[ktory].ost && aktualny!=NULL; aktualny=aktualny->next)
         {
-	//pomiedzy + samochod   		
-            fprintf(wskplik, "%4lu.%12s%12s", aktualny->LP, aktualny->marka, aktualny->model);
+	//+ samochod  		
+            fprintf(wskplik, "+ %4lu %12s%12s", aktualny->LP, aktualny->marka, aktualny->model);
             fprintf(wskplik, "%5ld%12ld\n", aktualny->rok, aktualny->przebieg);
 
-	    fputs("-\n", wskplik);//koniec katalogu
-            if(aktualny->NAPRAWYPOCZ!=NULL)fprintf(wskplik, "$ %8s%12s%14s $\n", "LP.", "Nazwa", "Ilosc godzin");
+            if(aktualny->NAPRAWYPOCZ!=NULL)fprintf(wskplik, "$ NaprawyWSamochodzie$\n");
             for(aktualnynap=aktualny->NAPRAWYPOCZ; aktualnynap!=aktualny->NAPRAWYOST && aktualnynap!=NULL; aktualnynap=aktualnynap->next)
-            {
-	    //pomiedzy - naprawa
-                fprintf(wskplik, "%7lu.%12s%14d \n", aktualnynap->LP, aktualnynap->nazwa, aktualnynap->iloscgodz);
+            {//% naprawa w samochodzie
+                fprintf(wskplik, "@ %7lu %12s%14d \n", aktualnynap->LP, aktualnynap->nazwa, aktualnynap->iloscgodz);
             }
-	    fputs("-\n", wskplik);//koniec napraw
         }
-	
-	fputs("+\n", wskplik);//koniec samochodow
     }
     
-    fputs("*\n#\n", wskplik);//koniec katalogu samochodow poczatek katalogu napraw
     for(ktory=0L; ktory<ilekatnap; ktory+=1L)
-    {
-        fprintf(wskplik, "%2ld.%17s\n", katalognap[ktory].numer, katalognap[ktory].nazwa);
-        if(katalognap[ktory].NAPRAWYPOCZ!=NULL) fprintf(wskplik, "$ %8s%12s%14s $\n", "LP.", "Nazwa", "Ilosc godzin");
+    {//# katalog napraw
+	fputs("$ KatalogNapraw$\n", wskplik);
+        fprintf(wskplik, "#  %2ld %17s\n", katalognap[ktory].numer, katalognap[ktory].nazwa);
+        if(katalognap[ktory].NAPRAWYPOCZ!=NULL) fprintf(wskplik, "$  NaprawyWKatalogu$\n");
         
-	fputs("&\n", wskplik);//poczatek napraw
 	for(aktualnynap=katalognap[ktory].NAPRAWYPOCZ; aktualnynap!=katalognap[ktory].NAPRAWYOST && aktualnynap!=NULL; 
-	aktualnynap=aktualnynap->next)
-            fprintf(wskplik, "%7lu.%12s%14d\n", aktualnynap->LP, aktualnynap->nazwa, aktualnynap->iloscgodz);
-	
-	fputs("&\n", wskplik);//koniec napraw
-	fputs("#\n", wskplik);//koniec katalogu napraw
+	aktualnynap=aktualnynap->next)//^ naprawy w katalogu
+            fprintf(wskplik, "^ %7lu %12s%14d\n", aktualnynap->LP, aktualnynap->nazwa, aktualnynap->iloscgodz);
     }
 
     if(fclose(wskplik)!=0)
     {
-
         perror("error: ");
 
         return 2;//1 gdy blad zamkniecia
-
     }
     return 0;
 }

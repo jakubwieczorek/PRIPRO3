@@ -70,9 +70,14 @@ int main()
                 stersort();
             }else
 	    if(choise==6)
-            {
-                expdobin();
-            }else
+            {    	
+		check_int(&choise, "Do binarnego(1), do txt(2)", 2, 0, 3);
+            	if(choise==2)
+		{
+			if(!expdotxt()) printf("Operacja powiodla sie. Zawartosc bazy w pliku baza.txt\n");
+	   		else puts("Wystapily bledy");	
+	   	}
+	    }else
             if(choise==0)
             {
                 while(1)
