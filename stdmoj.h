@@ -1,3 +1,5 @@
+#ifndef _STDMOJ_
+#define _STDMOJ_
 
 typedef struct NAPRAWY
 {
@@ -103,3 +105,5 @@ void sortowanienapwsam(unsigned long ktorykat, unsigned long ktorysam, unsigned 
 void sortowaniesamwkat(unsigned long ktorykat, unsigned long wgczego, unsigned long jak);
 
 void sortowanienapwkat(unsigned long ktorykat, unsigned long jak);
+
+#endif

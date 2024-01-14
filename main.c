@@ -9,7 +9,7 @@ katnapraw *katalognap;//katalogi napraw
 katsam *katsamochodow;//katalogi samochodow
 
 size_t ilekatnap;//zlicze katalogi napraw
-size_t ilekatsam;//zlicza katalogi samochodow
+extern size_t ilekatsam;//zlicza katalogi samochodow
 
 void komenda(char *wybor)
 {
